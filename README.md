@@ -50,7 +50,6 @@
 
       iex> RomanNumerals.convert_to_decimal("XVII")
       17
-  """
 
 ## Links
 	[MathIsFun](https://www.mathsisfun.com/roman-numerals.html)
