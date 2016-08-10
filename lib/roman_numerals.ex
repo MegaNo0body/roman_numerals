@@ -48,14 +48,14 @@ defmodule RomanNumerals do
   defp to_decimal(<<a::utf8, b::utf8, tail::binary>>, sum) do
     aa = roman_value(a)
     bb = roman_value(b)
-    # When A >= B: (a + b) + sum
-    # When A <  B: (b - a) + sum
-    delta = cond do
-        aa >= bb -> aa + bb
-        aa <  bb -> bb - aa
+    # When A >= B: sum + a
+    # When A <  B: sum - a
+    new_sum = cond do
+        aa >= bb -> sum + aa
+        aa <  bb -> sum - aa
       end
     # Recursion s2
-    to_decimal(tail, sum + delta)
+    to_decimal(<<b::utf8>> <> tail, new_sum) 
   end
 
   # We have only one character, I believe we are adding
