@@ -14,34 +14,6 @@ defmodule RomanNumerals do
   """
   
   @doc """
-    Convert a number to its roman numeral representation
-
-    ## Example:
-      iex> RomanNumerals.to_roman(1) 
-      "I"
-
-      iex> RomanNumerals.to_roman(3) 
-      "III"
-
-      iex> RomanNumerals.to_roman(4) 
-      "IV"
-
-      iex> RomanNumerals.to_roman(5) 
-      "V"
-
-      iex> RomanNumerals.to_roman(6) 
-      "VI"
-
-      iex> RomanNumerals.to_roman(17) 
-      "XVII"
-      
-      iex> RomanNumerals.to_roman(49)
-      "XLIX"
-  """
-  def to_roman(number) when is_integer(number) do
-  end
-
-  @doc """
     Convert a roman numeral to its decimal representation
 
     ## Example:
@@ -67,7 +39,9 @@ defmodule RomanNumerals do
       49
   """
   def to_decimal(roman) when is_bitstring(roman) do
-    to_decimal(roman, 0)
+    roman
+    |> String.upcase
+    |> to_decimal(0)
   end 
 
   # We still have two characters, let's see if we are adding/substracting
@@ -90,6 +64,7 @@ defmodule RomanNumerals do
   # We have our answer! :)
   defp to_decimal(<<>>, sum), do: sum
 
+  # Pattern match for roman letter -> number
   defp roman_value(?I), do: 1
   defp roman_value(?V), do: 5
   defp roman_value(?X), do: 10
@@ -97,4 +72,58 @@ defmodule RomanNumerals do
   defp roman_value(?C), do: 100
   defp roman_value(?D), do: 500
   defp roman_value(?M), do: 1000
+
+  # Table to convert number -> romans
+  @decimal_table [
+    {1000, "M"},
+    {900, "CM"},
+    {500, "D"},
+    {400, "CD"},
+    {100, "C"},
+    {90, "XC"},
+    {50, "L"},
+    {40, "XL"},
+    {10, "X"},
+    {9, "IX"},
+    {5, "V"},
+    {4, "IV"},
+    {1, "I"}]
+
+  @doc """
+    Convert a number to its roman numeral representation
+
+    ## Example:
+      iex> RomanNumerals.to_roman(1) 
+      "I"
+
+      iex> RomanNumerals.to_roman(3) 
+      "III"
+
+      iex> RomanNumerals.to_roman(4) 
+      "IV"
+
+      iex> RomanNumerals.to_roman(5) 
+      "V"
+
+      iex> RomanNumerals.to_roman(6) 
+      "VI"
+
+      iex> RomanNumerals.to_roman(17) 
+      "XVII"
+      
+      iex> RomanNumerals.to_roman(49)
+      "XLIX"
+  """
+  def to_roman(number) when is_integer(number) do
+    to_roman(number, @decimal_table, "")
+  end
+
+
+  defp to_roman(0, [], acc), do: acc
+  defp to_roman(rest, table = [{base, symbol} | tail], acc) do
+    cond do
+      rest >= base -> to_roman(rest - base, table, acc <> symbol)
+      true -> to_roman(rest, tail, acc)
+    end
+  end
 end
