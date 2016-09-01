@@ -5,11 +5,11 @@ defmodule RomanNumerals do
   More information about the conversion calculation can be found at: https://www.mathsisfun.com/roman-numerals.html
 
   Quoted from MathIsFun (link above):
-	> When a symbol appears after a larger symbol it is added
-	>  Example: VI = V + I = 5 + 1 = 6
-	>
-	> But if the symbol appears before a larger symbol it is subtracted
-	>  Example: IX = X - I = 10 - 1 = 9
+  > When a symbol appears after a larger symbol it is added
+  >  Example: VI = V + I = 5 + 1 = 6
+  >
+  > But if the symbol appears before a larger symbol it is subtracted
+  >  Example: IX = X - I = 10 - 1 = 9
 
   """
   
