@@ -1,8 +1,10 @@
 defmodule RomanNumerals do
   @moduledoc """
-  This module provides two functions that can translate from roman numerals to decimal and vice-versa.
+  This module provides two functions that can translate
+  from roman numerals to decimal and vice-versa.
 
-  More information about the conversion calculation can be found at: https://www.mathsisfun.com/roman-numerals.html
+  More information about the conversion calculation can
+  be found at: https://www.mathsisfun.com/roman-numerals.html
 
   Quoted from MathIsFun (link above):
   > When a symbol appears after a larger symbol it is added
@@ -12,7 +14,7 @@ defmodule RomanNumerals do
   >  Example: IX = X - I = 10 - 1 = 9
 
   """
-  
+
   @doc """
     Convert a roman numeral to its decimal representation
 
@@ -38,11 +40,12 @@ defmodule RomanNumerals do
       iex> RomanNumerals.to_decimal("XLIX")
       49
   """
-  def to_decimal(roman) when is_bitstring(roman) do
+  @spec to_decimal(String.t) :: pos_integer()
+  def to_decimal(roman) do
     roman
     |> String.upcase
     |> to_decimal(0)
-  end 
+  end
 
   # We still have two characters, let's see if we are adding/substracting
   defp to_decimal(<<a::utf8, b::utf8, tail::binary>>, sum) do
@@ -55,7 +58,7 @@ defmodule RomanNumerals do
         aa <  bb -> sum - aa
       end
     # Recursion s2
-    to_decimal(<<b::utf8>> <> tail, new_sum) 
+    to_decimal(<<b::utf8>> <> tail, new_sum)
   end
 
   # We have only one character, I believe we are adding
@@ -93,28 +96,29 @@ defmodule RomanNumerals do
     Convert a number to its roman numeral representation
 
     ## Example:
-      iex> RomanNumerals.to_roman(1) 
+      iex> RomanNumerals.to_roman(1)
       "I"
 
-      iex> RomanNumerals.to_roman(3) 
+      iex> RomanNumerals.to_roman(3)
       "III"
 
-      iex> RomanNumerals.to_roman(4) 
+      iex> RomanNumerals.to_roman(4)
       "IV"
 
-      iex> RomanNumerals.to_roman(5) 
+      iex> RomanNumerals.to_roman(5)
       "V"
 
-      iex> RomanNumerals.to_roman(6) 
+      iex> RomanNumerals.to_roman(6)
       "VI"
 
-      iex> RomanNumerals.to_roman(17) 
+      iex> RomanNumerals.to_roman(17)
       "XVII"
-      
+
       iex> RomanNumerals.to_roman(49)
       "XLIX"
   """
-  def to_roman(number) when is_integer(number) do
+  @spec to_roman(pos_integer()) :: String.t
+  def to_roman(number) do
     to_roman(number, @decimal_table, "")
   end
 
